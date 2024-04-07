@@ -22,7 +22,7 @@ main = do
     --let user_choice = read input :: Int
 
 board_printer :: [Int] -> String
-board_printer [] = "" 
+board_printer [] = ""
 board_printer (x:xs) = show x ++ " | " ++ board_printer(xs)
 
 stone_alloc :: [Int] -> Int -> Int -> Int -> Int -> [Int]
@@ -45,12 +45,30 @@ game_engine board turn_side = if turn_side == 1
                 let which_user = ((turn_side + 1) `rem` 2) + 1
                 let user1_part = take 6 final_board
                 let user2_part = take 6 (drop 7 final_board)
+                let user1_point = final_board !! 6
+                let user2_point = final_board !! 13
                                 
                 putStrLn "        GAME MANGALA"
-    
-                putStrLn ("  | " ++ (reverse (board_printer user2_part)))
-                putStrLn ("  | " ++ board_printer user1_part)        
-                game_engine final_board which_user
+
+                if user2_point == 0
+                    then do
+                        putStrLn ("  | " ++ (drop 3 (reverse (board_printer user2_part))) ++ " |")
+                        if user1_point == 0
+                            then do
+                                putStrLn ("  | " ++ board_printer user1_part)
+                                game_engine final_board which_user
+                            else do
+                                putStrLn ("  | " ++ board_printer user1_part ++ show (user1_point :: Int))
+                                game_engine final_board which_user
+                    else do
+                        putStrLn (show (user2_point :: Int) ++ "| " ++ (drop 3 (reverse (board_printer user2_part))) ++ " |")
+                        if user1_point == 0
+                            then do
+                                putStrLn ("  | " ++ board_printer user1_part)
+                                game_engine final_board which_user
+                            else do
+                                putStrLn ("  | " ++ board_printer user1_part ++ show (user1_point :: Int))
+                                game_engine final_board which_user
             else do
                 let stone_count = (board !! (hole_choice - 1)) - 1
                 
@@ -64,33 +82,87 @@ game_engine board turn_side = if turn_side == 1
                                 let which_user = 1
                                 let user1_part = take 6 final_board
                                 let user2_part = take 6 (drop 7 final_board)
+                                let user1_point = final_board !! 6
+                                let user2_point = final_board !! 13
                                 
                                 putStrLn "        GAME MANGALA"
-    
-                                putStrLn ("  | " ++ (reverse (board_printer user2_part)))
-                                putStrLn ("  | " ++ board_printer user1_part)        
-                                game_engine final_board which_user
+
+                                if user2_point == 0
+                                    then do
+                                        putStrLn ("  | " ++ (drop 3 (reverse (board_printer user2_part))) ++ " |")
+                                        if user1_point == 0
+                                            then do
+                                                putStrLn ("  | " ++ board_printer user1_part)
+                                                game_engine final_board which_user
+                                            else do
+                                                putStrLn ("  | " ++ board_printer user1_part ++ show (user1_point :: Int))
+                                                game_engine final_board which_user
+                                    else do
+                                        putStrLn (show (user2_point :: Int) ++ "| " ++ (drop 3 (reverse (board_printer user2_part))) ++ " |")
+                                        if user1_point == 0
+                                            then do
+                                                putStrLn ("  | " ++ board_printer user1_part)
+                                                game_engine final_board which_user
+                                            else do
+                                                putStrLn ("  | " ++ board_printer user1_part ++ show (user1_point :: Int))
+                                                game_engine final_board which_user
                         else if (((hole_choice - 1 + stone_count) `rem` 14) > 7)
                             then do
                                 let which_user = 2
                                 let user1_part = take 6 final_board
                                 let user2_part = take 6 (drop 7 final_board)
+                                let user1_point = final_board !! 6
+                                let user2_point = final_board !! 13
                                 
                                 putStrLn "        GAME MANGALA"
-    
-                                putStrLn ("  | " ++ (reverse (board_printer user2_part)))
-                                putStrLn ("  | " ++ board_printer user1_part)        
-                                game_engine final_board which_user
+
+                                if user2_point == 0
+                                    then do
+                                        putStrLn ("  | " ++ (drop 3 (reverse (board_printer user2_part))) ++ " |")
+                                        if user1_point == 0
+                                            then do
+                                                putStrLn ("  | " ++ board_printer user1_part)
+                                                game_engine final_board which_user
+                                            else do
+                                                putStrLn ("  | " ++ board_printer user1_part ++ show (user1_point :: Int))
+                                                game_engine final_board which_user
+                                    else do
+                                        putStrLn (show (user2_point :: Int) ++ "| " ++ (drop 3 (reverse (board_printer user2_part))) ++ " |")
+                                        if user1_point == 0
+                                            then do
+                                                putStrLn ("  | " ++ board_printer user1_part)
+                                                game_engine final_board which_user
+                                            else do
+                                                putStrLn ("  | " ++ board_printer user1_part ++ show (user1_point :: Int))
+                                                game_engine final_board which_user
                             else do
                                 let which_user = 1
                                 let user1_part = take 6 final_board
                                 let user2_part = take 6 (drop 7 final_board)
+                                let user1_point = final_board !! 6
+                                let user2_point = final_board !! 13
                                 
                                 putStrLn "        GAME MANGALA"
-    
-                                putStrLn ("  | " ++ (reverse (board_printer user2_part)))
-                                putStrLn ("  | " ++ board_printer user1_part)        
-                                game_engine final_board which_user
+
+                                if user2_point == 0
+                                    then do
+                                        putStrLn ("  | " ++ (drop 3 (reverse (board_printer user2_part))) ++ " |")
+                                        if user1_point == 0
+                                            then do
+                                                putStrLn ("  | " ++ board_printer user1_part)
+                                                game_engine final_board which_user
+                                            else do
+                                                putStrLn ("  | " ++ board_printer user1_part ++ show (user1_point :: Int))
+                                                game_engine final_board which_user
+                                    else do
+                                        putStrLn (show (user2_point :: Int) ++ "| " ++ (drop 3 (reverse (board_printer user2_part))) ++ " |")
+                                        if user1_point == 0
+                                            then do
+                                                putStrLn ("  | " ++ board_printer user1_part)
+                                                game_engine final_board which_user
+                                            else do
+                                                putStrLn ("  | " ++ board_printer user1_part ++ show (user1_point :: Int))
+                                                game_engine final_board which_user
                     else do
                         
                         let stone_count = (board !! (hole_choice - 1)) - 1
@@ -103,35 +175,90 @@ game_engine board turn_side = if turn_side == 1
                                 let which_user = 1 
                                 let user1_part = take 6 final_board
                                 let user2_part = take 6 (drop 7 final_board)
+                                let user1_point = final_board !! 6
+                                let user2_point = final_board !! 13
                                 
                                 putStrLn "        GAME MANGALA"
-    
-                                putStrLn ("  | " ++ (reverse (board_printer user2_part)))
-                                putStrLn ("  | " ++ board_printer user1_part)        
-                                game_engine final_board which_user
+
+                                if user2_point == 0
+                                    then do
+                                        putStrLn ("  | " ++ (drop 3 (reverse (board_printer user2_part))) ++ " |")
+                                        if user1_point == 0
+                                            then do
+                                                putStrLn ("  | " ++ board_printer user1_part)
+                                                game_engine final_board which_user
+                                            else do
+                                                putStrLn ("  | " ++ board_printer user1_part ++ show (user1_point :: Int))
+                                                game_engine final_board which_user
+                                    else do
+                                        putStrLn (show (user2_point :: Int) ++ "| " ++ (drop 3 (reverse (board_printer user2_part))) ++ " |")
+                                        if user1_point == 0
+                                            then do
+                                                putStrLn ("  | " ++ board_printer user1_part)
+                                                game_engine final_board which_user
+                                            else do
+                                                putStrLn ("  | " ++ board_printer user1_part ++ show (user1_point :: Int))
+                                                game_engine final_board which_user
                         else if (((hole_choice - 1 + stone_count) `rem` 14) > 6)
                             then do
                                 
                                 let which_user = 2  
                                 let user1_part = take 6 final_board
                                 let user2_part = take 6 (drop 7 final_board)
+                                let user1_point = final_board !! 6
+                                let user2_point = final_board !! 13
                                 
                                 putStrLn "        GAME MANGALA"
-    
-                                putStrLn ("  | " ++ (reverse (board_printer user2_part)))
-                                putStrLn ("  | " ++ board_printer user1_part)        
-                                game_engine final_board which_user
+
+                                if user2_point == 0
+                                    then do
+                                        putStrLn ("  | " ++ (drop 3 (reverse (board_printer user2_part))) ++ " |")
+                                        if user1_point == 0
+                                            then do
+                                                putStrLn ("  | " ++ board_printer user1_part)
+                                                game_engine final_board which_user
+                                            else do
+                                                putStrLn ("  | " ++ board_printer user1_part ++ show (user1_point :: Int))
+                                                game_engine final_board which_user
+                                    else do
+                                        putStrLn (show (user2_point :: Int) ++ "| " ++ (drop 3 (reverse (board_printer user2_part))) ++ " |")
+                                        if user1_point == 0
+                                            then do
+                                                putStrLn ("  | " ++ board_printer user1_part)
+                                                game_engine final_board which_user
+                                            else do
+                                                putStrLn ("  | " ++ board_printer user1_part ++ show (user1_point :: Int))
+                                                game_engine final_board which_user
                             else do
                                 
                                 let which_user = 1
                                 let user1_part = take 6 final_board
                                 let user2_part = take 6 (drop 7 final_board)
+                                let user1_point = final_board !! 6
+                                let user2_point = final_board !! 13
                                 
                                 putStrLn "        GAME MANGALA"
-    
-                                putStrLn ("  | " ++ (reverse (board_printer user2_part)))
-                                putStrLn ("  | " ++ board_printer user1_part)        
-                                game_engine final_board which_user
+
+                                if user2_point == 0
+                                    then do
+                                        putStrLn ("  | " ++ (drop 3 (reverse (board_printer user2_part))) ++ " |")
+                                        if user1_point == 0
+                                            then do
+                                                putStrLn ("  | " ++ board_printer user1_part)
+                                                game_engine final_board which_user
+                                            else do
+                                                putStrLn ("  | " ++ board_printer user1_part ++ show (user1_point :: Int))
+                                                game_engine final_board which_user
+                                    else do
+                                        putStrLn (show (user2_point :: Int) ++ "| " ++ (drop 3 (reverse (board_printer user2_part))) ++ " |")
+                                        if user1_point == 0
+                                            then do
+                                                putStrLn ("  | " ++ board_printer user1_part)
+                                                game_engine final_board which_user
+                                            else do
+                                                putStrLn ("  | " ++ board_printer user1_part ++ show (user1_point :: Int))
+                                                game_engine final_board which_user
+                
 
         else do 
             putStrLn "User 2 Enter hole number:"
