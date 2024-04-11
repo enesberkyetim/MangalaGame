@@ -28,7 +28,11 @@ board_printer (x:xs) = show x ++ " | " ++ board_printer(xs)
 stone_alloc :: [Int] -> Int -> Int -> Int -> Int -> [Int]
 stone_alloc board turn_side number hole stop = if number == stop
     then []
-    else [(board !! ((hole - 1 + number) `rem` 14)) + 1] ++ (stone_alloc board turn_side (number + 1) hole stop)
+    else if ((turn_side == 1) && (((hole - 1 + number) `rem` 14) == 13))
+        then [board !! 13] ++ (stone_alloc board turn_side (number + 1) hole (stop + 1))
+    else if ((turn_side == 2) && (((hole - 1 + number) `rem` 14) == 6))
+        then [board !! 6] ++ (stone_alloc board turn_side (number + 1) hole (stop + 1))
+        else [(board !! ((hole - 1 + number) `rem` 14)) + 1] ++ (stone_alloc board turn_side (number + 1) hole stop)
 game_engine :: [Int] -> Int -> IO()
 game_engine [] _ = putStrLn "Game Finished"
 game_engine board turn_side = if turn_side == 1
@@ -131,15 +135,16 @@ game_engine board turn_side = if turn_side == 1
             else do
                 let stone_count = (board !! (hole_choice - 1)) - 1
                 
-                if (hole_choice + (board !! (hole_choice - 1) - 1)) > 14
+                if (hole_choice + (board !! (hole_choice - 1) - 1)) >= 14
                     then do
-                        let final_board1 = ((take (hole_choice - 1) board)) ++ [1] ++ (stone_alloc board turn_side 1  hole_choice ((board !! (hole_choice - 1) ))) 
+                        --let final_board1 = ((take (hole_choice - 1) board)) ++ [1] ++ (stone_alloc board turn_side 1  hole_choice ((board !! (hole_choice - 1) )))
+                        let final_board1 = ((drop (14 - hole_choice) (stone_alloc board turn_side 1  hole_choice ((board !! (hole_choice - 1) ))))) ++ (take (hole_choice - ((hole_choice + stone_count + 1) `rem` 14) - 1) (drop (((hole_choice + stone_count + 1) `rem` 14)) board)) ++ [1] ++ (take (14 - hole_choice) (stone_alloc board turn_side 1  hole_choice ((board !! (hole_choice - 1) ))))
                             
                         let final_board = take 14 ((reverse (take (length final_board1 `rem` 14) (reverse final_board1))) ++ (drop (length final_board1 `rem` 14) final_board1))
 
-                        if (((hole_choice - 1 + stone_count) `rem` 14) < 5) && ((final_board !! ((hole_choice - 1 + stone_count) `rem` 14)) == 1) && (((final_board !! ((hole_choice - 1 + stone_count) `rem` 14)) == 1) || ((stone_count == 0) && ((final_board !! ((hole_choice + stone_count) `rem` 14)) == 1)))
+                        if (((hole_choice + stone_count) `rem` 14) < 5) && ((final_board !! ((hole_choice + stone_count) `rem` 14)) == 1) && (((final_board !! ((hole_choice + stone_count) `rem` 14)) == 1) || ((stone_count == 0) && ((final_board !! ((hole_choice + stone_count + 1) `rem` 14)) == 1)))
                             then do 
-                                let final_board2 = (take ((hole_choice - 1 + stone_count) `rem` 14) final_board) ++ [0] ++ (take (5 - ((hole_choice - 1 + stone_count) `rem` 14)) (drop (((hole_choice - 1 + stone_count) `rem` 14) + 1) final_board)) ++ [1 + (board !! (12 - ((hole_choice - 1 + stone_count) `rem` 14))) + (board !! 6)] ++ (take (5 - ((hole_choice - 1 + stone_count) `rem` 14)) (drop 7 final_board)) ++ [0] ++ (take (((hole_choice - 1 + stone_count) `rem` 14) + 1) (drop (12 - ((hole_choice - 1 + stone_count) `rem` 14)) final_board ) )
+                                let final_board2 = (take ((hole_choice + stone_count) `rem` 14) final_board) ++ [0] ++ (take (5 - ((hole_choice + stone_count) `rem` 14)) (drop (((hole_choice + stone_count) `rem` 14) + 1) final_board)) ++ [1 + (board !! (12 - ((hole_choice + stone_count) `rem` 14))) + (board !! 6)] ++ (take (5 - ((hole_choice + stone_count) `rem` 14)) (drop 7 final_board)) ++ [0] ++ (take (((hole_choice + stone_count) `rem` 14) + 1) (drop (13 - ((hole_choice + stone_count) `rem` 14)) final_board ) )
                                 let which_user = 2
                                 let user1_part = take 6 final_board2
                                 let user2_part = take 6 (drop 7 final_board2)
@@ -611,5 +616,42 @@ game_engine board turn_side = if turn_side == 1
                                                 putStrLn ("  | " ++ board_printer user1_part ++ show (user1_point :: Int))
                                                 game_engine final_board which_user
 
-        
+checkIsGameOK :: [Int] -> Int
+checkIsGameOK [] = 4
+checkIsGameOK gameboard = 
+    if length gameboard == 14
+    then do  
+        let user1StoneNumber = (sum $ drop 7 gameboard) - (gameboard !! 13)
+        let user2StoneNumber = (sum $ take 6 gameboard)   
+
+        if user1StoneNumber == 0
+            then do
+                let user1Score = user2StoneNumber + (gameboard !! 13)
+                let user2Score = gameboard !! 6
+
+                if user1Score > user2Score
+                    then 1
+                else if user2Score > user1Score
+                    then 2
+                else 3
+
+        else if user2StoneNumber == 0
+            then do 
+                let user2Score = user1StoneNumber + (gameboard !! 6) 
+                let user1Score = gameboard !! 13
+
+                if user2Score > user1Score
+                    then 2
+                else if user1Score > user2Score
+                    then 1
+                else 3
+        else 0
+    else 5
+
+whoWinThisGame :: Int -> IO ()
+whoWinThisGame 0 = print "Continue"
+whoWinThisGame 1 = putStrLn "User1 won this game."
+whoWinThisGame 2 = putStrLn "User2 won this game."
+whoWinThisGame 3 = putStrLn "Draw"
+whoWinThisGame _ = putStrLn "Incorrect"      
 
