@@ -88,9 +88,9 @@ game_engine board turn_side = if turn_side == 1
                     then do
                         let stone_count = (board !! (hole_choice - 1)) - 1
                         let final_board = (take (hole_choice - 1) board) ++ [0] ++ [(board !! hole_choice) + 1] ++ (drop (hole_choice + 1) board)
-                        if (((hole_choice - 1 + stone_count) `rem` 14) < 5) && ((final_board !! ((hole_choice - 1 + stone_count) `rem` 14)) == 1 ) && (((final_board !! ((hole_choice - 1 + stone_count) `rem` 14)) == 1) || ((stone_count == 0) && ((final_board !! ((hole_choice + stone_count) `rem` 14)) == 1)))
+                        if (((hole_choice - 1 + stone_count) `rem` 14) <= 5) && (((final_board !! ((hole_choice - 1 + stone_count) `rem` 14)) == 1) || ((stone_count == 0) && ((final_board !! ((hole_choice + stone_count) `rem` 14)) == 1)))
                             then do 
-                                let final_board1 = (take hole_choice final_board) ++ [0] ++ (take (5 - hole_choice) (drop (hole_choice + 1) final_board)) ++ [1 + (board !! (12 - hole_choice)) + (board !! 6)] ++ (take (5 - hole_choice) (drop 7 final_board)) ++ [0] ++ (take (hole_choice + 1) (drop (12 - hole_choice) final_board ) )
+                                let final_board1 = (take hole_choice final_board) ++ [0] ++ (take (5 - hole_choice) (drop (hole_choice + 1) final_board)) ++ [1 + (board !! (12 - hole_choice)) + (board !! 6)] ++ (take (5 - hole_choice) (drop 7 final_board)) ++ [0] ++ (take (hole_choice + 1) (drop (13 - hole_choice) final_board ) )
                                 let which_user = 2
                                 let user1_part = take 6 final_board1
                                 let user2_part = take 6 (drop 7 final_board1)
@@ -185,9 +185,9 @@ game_engine board turn_side = if turn_side == 1
                                     
                                 let final_board = take 14 ((reverse (take (length final_board1 `rem` 14) (reverse final_board1))) ++ (drop (length final_board1 `rem` 14) final_board1))
 
-                                if (((hole_choice + stone_count) `rem` 14) < 5) && ((final_board !! ((hole_choice + stone_count) `rem` 14)) == 1) && (((final_board !! ((hole_choice + stone_count) `rem` 14)) == 1) || ((stone_count == 0) && ((final_board !! ((hole_choice + stone_count + 1) `rem` 14)) == 1)))
+                                if (((hole_choice + stone_count) `rem` 14) <= 5) && (((final_board !! ((hole_choice + stone_count) `rem` 14)) == 1) || ((stone_count == 0) && ((final_board !! ((hole_choice + stone_count + 1) `rem` 14)) == 1)))
                                     then do 
-                                        let final_board2 = (take ((hole_choice + stone_count) `rem` 14) final_board) ++ [0] ++ (take (5 - ((hole_choice + stone_count) `rem` 14)) (drop (((hole_choice + stone_count) `rem` 14) + 1) final_board)) ++ [1 + (board !! (12 - ((hole_choice + stone_count) `rem` 14))) + (board !! 6)] ++ (take (5 - ((hole_choice + stone_count) `rem` 14)) (drop 7 final_board)) ++ [0] ++ (take (((hole_choice + stone_count) `rem` 14) + 1) (drop (13 - ((hole_choice + stone_count) `rem` 14)) final_board ) )
+                                        let final_board2 = (take ((hole_choice + stone_count) `rem` 14) final_board) ++ [0] ++ (take (5 - ((hole_choice + stone_count) `rem` 14)) (drop (((hole_choice + stone_count) `rem` 14) + 1) final_board)) ++ [1 + (board !! (12 - ((hole_choice + stone_count) `rem` 14))) + (board !! 6)] ++ (take (5 - ((hole_choice + stone_count) `rem` 14)) (drop 7 final_board)) ++ [0] ++ (take (((hole_choice + stone_count) `rem` 14) + 1) (drop (13 - ((hole_choice + stone_count) `rem` 14)) final_board ))
                                         let which_user = 2
                                         let user1_part = take 6 final_board2
                                         let user2_part = take 6 (drop 7 final_board2)
@@ -277,7 +277,7 @@ game_engine board turn_side = if turn_side == 1
                                 let stone_count = (board !! (hole_choice - 1)) - 1
                                 let final_board = ((take (hole_choice - 1) board)) ++ [1] ++ (stone_alloc board turn_side 1  hole_choice ((board !! (hole_choice - 1) ))) ++ (drop (hole_choice + (board !! (hole_choice - 1) - 1)) board)
                                 
-                                if (((hole_choice - 1 + stone_count) `rem` 14) < 5) && ((final_board !! ((hole_choice - 1 + stone_count) `rem` 14)) == 1) && (((final_board !! ((hole_choice - 1 + stone_count) `rem` 14)) == 1) || ((stone_count == 0) && ((final_board !! ((hole_choice + stone_count) `rem` 14)) == 1)))
+                                if (((hole_choice - 1 + stone_count) `rem` 14) <= 5) && (((final_board !! ((hole_choice - 1 + stone_count) `rem` 14)) == 1) || ((stone_count == 0) && ((final_board !! ((hole_choice + stone_count) `rem` 14)) == 1)))
                                     then do 
                                         
                                         let final_board1 = (take ((hole_choice - 1 + stone_count) `rem` 14) final_board) ++ [0] ++ (take (5 - ((hole_choice - 1 + stone_count) `rem` 14)) (drop (((hole_choice - 1 + stone_count) `rem` 14) + 1) final_board)) ++ [1 + (board !! (12 - ((hole_choice - 1 + stone_count) `rem` 14))) + (board !! 6)] ++ (take (5 - ((hole_choice - 1 + stone_count) `rem` 14)) (drop 7 final_board)) ++ [0] ++ (take (((hole_choice - 1 + stone_count) `rem` 14) + 1) (drop (12 - ((hole_choice - 1 + stone_count) `rem` 14)) final_board ) )
@@ -385,9 +385,9 @@ game_engine board turn_side = if turn_side == 1
                         then do
                             let stone_count = (board !! (hole_choice - 1)) - 1
                             let final_board = (take (hole_choice - 1) board) ++ [0] ++ [(board !! hole_choice) + 1] ++ (drop (hole_choice + 1) board)
-                            if (((hole_choice - 1 + stone_count) `rem` 14) > 6) && (((hole_choice - 1 + stone_count) `rem` 14) < 12) && (((final_board !! ((hole_choice - 1 + stone_count) `rem` 14)) == 1) || ((stone_count == 0) && ((final_board !! ((hole_choice + stone_count) `rem` 14)) == 1)))
+                            if (((hole_choice - 1 + stone_count) `rem` 14) >= 6) && (((hole_choice - 1 + stone_count) `rem` 14) <= 12) && (((final_board !! ((hole_choice - 1 + stone_count) `rem` 14)) == 1) || ((stone_count == 0) && ((final_board !! ((hole_choice + stone_count) `rem` 14)) == 1)))
                                 then do 
-                                    putStrLn "a"
+                                    
                                     --let final_board = (take ((hole_choice - 1 + stone_count) `rem` 14) final_board) ++ [0] ++ (take (5 - ((hole_choice - 1 + stone_count) `rem` 14)) (drop ((hole_choice + stone_count) `rem` 14) final_board)) ++ [(final_board !! 6) + (1 + (final_board !! (13 - ((hole_choice - 1 + stone_count) `rem` 14))))] ++ (drop (14 - ((hole_choice - 1 + stone_count) `rem` 14)) final_board)
                                     let final_board1 = (take (11 - (hole_choice - 1)) final_board) ++ [0] ++ (take (hole_choice - (13 - hole_choice)) (drop (13 - hole_choice) final_board)) ++ [0] ++ (take (12 - hole_choice) (drop (hole_choice + 1) final_board)) ++ [1 + (board !! (12 - (hole_choice))) + (board !! 13)]
                                     --print final_board1
@@ -484,7 +484,7 @@ game_engine board turn_side = if turn_side == 1
                                     let final_board1 = ((take (hole_choice - 1) board)) ++ [1] ++ (stone_alloc board turn_side 1  hole_choice ((board !! (hole_choice - 1) ))) 
                                     
                                     let final_board = take 14 ((reverse (take (length final_board1 `rem` 14) (reverse final_board1))) ++ (drop (length final_board1 `rem` 14) final_board1))
-                                    if (((hole_choice - 1 + stone_count) `rem` 14) > 6) && (((hole_choice - 1 + stone_count) `rem` 14) < 12) && (((final_board !! ((hole_choice - 1 + stone_count) `rem` 14)) == 1) || ((stone_count == 0) && ((final_board !! ((hole_choice + stone_count) `rem` 14)) == 1)))
+                                    if (((hole_choice - 1 + stone_count) `rem` 14) >= 6) && (((hole_choice - 1 + stone_count) `rem` 14) <= 12) && (((final_board !! ((hole_choice - 1 + stone_count) `rem` 14)) == 1) || ((stone_count == 0) && ((final_board !! ((hole_choice + stone_count) `rem` 14)) == 1)))
                                         then do 
                                             let final_board2 = (take (11 - ((hole_choice - 1 + stone_count) `rem` 14 )) final_board) ++ [0] ++ (take (((hole_choice + stone_count) `rem` 14) - (13 - ((hole_choice + stone_count) `rem` 14))) (drop (13 - ((hole_choice + stone_count) `rem` 14)) final_board)) ++ [0] ++ (take (12 - ((hole_choice + stone_count) `rem` 14)) (drop (((hole_choice + stone_count) `rem` 14) + 1) final_board)) ++ [1 + (board !! (12 - (((hole_choice + stone_count) `rem` 14)))) + (board !! 13)]
                                             let which_user = 1
@@ -575,7 +575,7 @@ game_engine board turn_side = if turn_side == 1
                                 let stone_count = (board !! (hole_choice - 1)) - 1
                                 let final_board = ((take (hole_choice - 1) board)) ++ [1] ++ (stone_alloc board turn_side 1  hole_choice ((board !! (hole_choice - 1) ))) ++ (drop (hole_choice + (board !! (hole_choice - 1) - 1)) board)
                                 
-                                if (((hole_choice - 1 + stone_count) `rem` 14) > 6) && (((hole_choice - 1 + stone_count) `rem` 14) < 12) && (((final_board !! ((hole_choice - 1 + stone_count) `rem` 14)) == 1) || ((stone_count == 0) && ((final_board !! ((hole_choice + stone_count) `rem` 14)) == 1)))
+                                if (((hole_choice - 1 + stone_count) `rem` 14) >= 6) && (((hole_choice - 1 + stone_count) `rem` 14) <= 12) && (((final_board !! ((hole_choice - 1 + stone_count) `rem` 14)) == 1) || ((stone_count == 0) && ((final_board !! ((hole_choice + stone_count) `rem` 14)) == 1)))
                                     then do 
                                         
                                         let final_board1 = (take (11 - ((hole_choice - 1 + stone_count) `rem` 14 )) final_board) ++ [0] ++ (take (((hole_choice + stone_count) `rem` 14) - (13 - ((hole_choice + stone_count) `rem` 14))) (drop (13 - ((hole_choice + stone_count) `rem` 14)) final_board)) ++ [0] ++ (take (12 - ((hole_choice + stone_count) `rem` 14)) (drop (((hole_choice + stone_count) `rem` 14) + 1) final_board)) ++ [1 + (board !! (12 - (((hole_choice + stone_count) `rem` 14)))) + (board !! 13)]
